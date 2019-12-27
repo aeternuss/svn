@@ -6,7 +6,7 @@ RUN set -ex \
   ## install httpd & subversion
   apk add --no-cache \
     apache2 \
-    apache2-utils 
+    apache2-utils \
     apache2-webdav \
     apache2-ssl \
     apache2-ldap \

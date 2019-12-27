@@ -21,4 +21,4 @@ jobs:
         run: |
           docker build . --file Dockerfile --tag ${image_name}:$(date +%s)
         env:
-          image_name: ${{ github.registory }}
+          image_name: ${{ github.repository }}
