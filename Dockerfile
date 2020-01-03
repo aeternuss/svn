@@ -39,8 +39,9 @@ RUN set -ex \
       >> /usr/local/apache2/conf/httpd.conf \
   \
   ## cleanup
-  && apt-get clean \
-  && apt-get autoremove
+  && apt-get clean -y \
+  && apt-get autoremove -y
+  && rm -rf /tmp/*
 
 EXPOSE 80 443
 
