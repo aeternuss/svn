@@ -20,10 +20,11 @@ RUN set -ex \
   && mkdir -p "$DATA_HOME" \
   \
   ## include extra config files
-  && echo -ne "\n\n## Include extra config" \
-              "\nInclude conf/extra/nohttp-ssl.conf" \
-              "\nInclude conf/extra/nohttp-modules.conf" \
-              "\nIncludeOptional $DATA_HOME/apache2/conf.d/*.conf" \
+  && printf "\n\n%s\n%s\n%s\n%s" \
+            "## Include extra config" \
+            "Include conf/extra/nohttp-ssl.conf" \
+            "Include conf/extra/nohttp-modules.conf" \
+            "IncludeOptional $DATA_HOME/apache2/conf.d/*.conf" \
       >> /usr/local/apache2/conf/httpd.conf \
   \
   ## cleanup
