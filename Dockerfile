@@ -5,6 +5,8 @@ ENV DATA_HOME=/data
 
 RUN set -ex \
   \
+  && apt-get update \
+  \
   ## install packages
   && apt-get install -y \
       \
@@ -17,18 +19,28 @@ RUN set -ex \
   ## data dir
   && mkdir -p "$DATA_HOME" \
   \
-  ## include user config files
-  && printf "\n\n## Load Required Modules\nInclude conf/extra/required-modules.conf\n" \
-      >> /usr/local/apache2/conf/httpd.conf \
-  && printf "\n\n## Include user config files\nIncludeOptional $DATA_HOME/apache2/conf.d/*.conf\n" \
+  ## Include required modules
+  && sed -i -e 's/^#\(Include .*httpd-ssl.conf\)/\1/' \
+            -e 's/^#\(LoadModule .*mod_socache_shmcb.so\)/\1/' \
+            -e 's/^#\(LoadModule .*mod_ssl.so\)/\1/' \
+            -e 's/^#\(LoadModule .*mod_auth_digest.so\)/\1/' \
+            -e 's/^#\(LoadModule .*mod_dav.so\)/\1/' \
+            -e 's/^#\(LoadModule .*mod_dav_fs.so\)/\1/' \
+            -e 's/^#\(LoadModule .*mod_authnz_ldap.so\)/\1/' \
+            -e 's/^#\(LoadModule .*mod_ldap.so\)/\1/' \
+      /usr/local/apache2/conf/httpd.conf \
+  \
+  ## Load Module: dav_svn_module
+  && echo -ne "\n\n## Load dav_svn_module" \
+              "\nLoadModule dav_svn_module modules/mod_dav_svn.so" \
+              "\nLoadModule authz_svn_module modules/mod_authz_svn.so" \
+              "\n\n## Include user config files" \
+              "\nIncludeOptional $DATA_HOME/apache2/conf.d/*.conf" \
       >> /usr/local/apache2/conf/httpd.conf \
   \
   ## cleanup
   && apt-get clean \
   && apt-get autoremove
-
-# mod_dav_svn: LoadModule
-ADD conf.d/required-modules.conf /usr/local/apache2/conf/extra/required-modules.conf
 
 EXPOSE 80 443
 
