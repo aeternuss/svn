@@ -40,7 +40,7 @@ RUN set -ex \
   \
   ## cleanup
   && apt-get clean -y \
-  && apt-get autoremove -y
+  && apt-get autoremove -y \
   && rm -rf /tmp/*
 
 EXPOSE 80 443
