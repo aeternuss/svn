@@ -21,8 +21,8 @@ RUN set -ex \
   \
   ## include extra config files
   && echo -ne "\n\n## Include extra config" \
-              "\nInclude conf/extra/ssl-options.conf" \
-              "\nInclude conf/extra/svn-modules.conf" \
+              "\nInclude conf/extra/nohttp-ssl.conf" \
+              "\nInclude conf/extra/nohttp-modules.conf" \
               "\nIncludeOptional $DATA_HOME/apache2/conf.d/*.conf" \
       >> /usr/local/apache2/conf/httpd.conf \
   \
@@ -32,9 +32,9 @@ RUN set -ex \
   && rm -rf /tmp/*
 
 # ssl options
-COPY conf/ssl-options.conf /usr/local/apache2/conf/extra/ssl-options.conf
+COPY conf/nohttp-ssl.conf /usr/local/apache2/conf/extra/nohttp-ssl.conf
 # svn modules
-COPY conf/svn-modules.conf /usr/local/apache2/conf/extra/svn-modules.conf
+COPY conf/nohttp-modules.conf /usr/local/apache2/conf/extra/nohttp-modules.conf
 
 EXPOSE 80 443
 
