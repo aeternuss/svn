@@ -1,26 +1,34 @@
-FROM alpine:3.11
+FROM httpd:2.4
 MAINTAINER aeternus <aeternus@aliyun.com>
+
+ENV DATA_HOME=/data
 
 RUN set -ex \
   \
-  && apk add --no-cache \
-    ## install httpd
-    apache2 \
-    apache2-utils \
-    \
-    ## install httpd modules
-    apache2-webdav \
-    apache2-ssl \
-    apache2-ldap \
-    mod_dav_svn \
-    \
-    ## install subversion
-    subversion \
+  ## install packages
+  && apt-get install -y \
+      \
+      ## subversion
+      subversion \
+      \
+      ## apache modules, Aleady: dav, ldap, ssl
+      libapache2-mod-svn \
   \
-  && rm -rf /tmp/*
+  ## data dir
+  && mkdir -p "$DATA_HOME" \
+  \
+  ## include user config files
+  && printf "\n\n## Load Required Modules\nInclude conf/extra/required-modules.conf\n" \
+      >> /usr/local/apache2/conf/httpd.conf \
+  && printf "\n\n## Include user config files\nIncludeOptional $DATA_HOME/apache2/conf.d/*.conf\n" \
+      >> /usr/local/apache2/conf/httpd.conf \
+  \
+  ## cleanup
+  && apt-get clean \
+  && apt-get autoremove
 
 # mod_dav_svn: LoadModule
-ADD conf.d/dav_svn.conf /etc/apache2/conf.d/dav_svn.conf
+ADD conf.d/required-modules.conf /usr/local/apache2/conf/extra/required-modules.conf
 
 EXPOSE 80 443
 
