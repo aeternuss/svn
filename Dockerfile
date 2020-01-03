@@ -19,22 +19,10 @@ RUN set -ex \
   ## data dir
   && mkdir -p "$DATA_HOME" \
   \
-  ## Include required modules
-  && sed -i -e 's/^#\(Include .*httpd-ssl.conf\)/\1/' \
-            -e 's/^#\(LoadModule .*mod_socache_shmcb.so\)/\1/' \
-            -e 's/^#\(LoadModule .*mod_ssl.so\)/\1/' \
-            -e 's/^#\(LoadModule .*mod_auth_digest.so\)/\1/' \
-            -e 's/^#\(LoadModule .*mod_dav.so\)/\1/' \
-            -e 's/^#\(LoadModule .*mod_dav_fs.so\)/\1/' \
-            -e 's/^#\(LoadModule .*mod_authnz_ldap.so\)/\1/' \
-            -e 's/^#\(LoadModule .*mod_ldap.so\)/\1/' \
-      /usr/local/apache2/conf/httpd.conf \
-  \
-  ## Load Module: dav_svn_module
-  && echo -ne "\n\n## Load dav_svn_module" \
-              "\nLoadModule dav_svn_module /usr/lib/apache2/modules/mod_dav_svn.so" \
-              "\nLoadModule authz_svn_module /usr/lib/apache2/modules/mod_authz_svn.so" \
-              "\n\n## Include user config files" \
+  ## include extra config files
+  && echo -ne "\n\n## Include extra config" \
+              "\nInclude conf/extra/ssl-options.conf" \
+              "\nInclude conf/extra/svn-modules.conf" \
               "\nIncludeOptional $DATA_HOME/apache2/conf.d/*.conf" \
       >> /usr/local/apache2/conf/httpd.conf \
   \
@@ -42,6 +30,11 @@ RUN set -ex \
   && apt-get clean -y \
   && apt-get autoremove -y \
   && rm -rf /tmp/*
+
+# ssl options
+COPY conf/ssl-options.conf /usr/local/apache2/conf/extra/ssl-options.conf
+# svn modules
+COPY conf/svn-modules.conf /usr/local/apache2/conf/extra/svn-modules.conf
 
 EXPOSE 80 443
 
