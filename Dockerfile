@@ -32,8 +32,8 @@ RUN set -ex \
   \
   ## Load Module: dav_svn_module
   && echo -ne "\n\n## Load dav_svn_module" \
-              "\nLoadModule dav_svn_module modules/mod_dav_svn.so" \
-              "\nLoadModule authz_svn_module modules/mod_authz_svn.so" \
+              "\nLoadModule dav_svn_module /usr/lib/apache2/modules/mod_dav_svn.so" \
+              "\nLoadModule authz_svn_module /usr/lib/apache2/modules/mod_authz_svn.so" \
               "\n\n## Include user config files" \
               "\nIncludeOptional $DATA_HOME/apache2/conf.d/*.conf" \
       >> /usr/local/apache2/conf/httpd.conf \
