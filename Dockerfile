@@ -45,4 +45,4 @@ RUN set -ex \
 
 EXPOSE 80 443
 
-CMD ["/usr/sbin/httpd", "-D", "FOREGROUND"]
+VOLUME $DATA_HOME
