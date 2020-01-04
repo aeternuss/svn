@@ -4,13 +4,9 @@ Provider SVN based on HTTP(s) protocol.
 
 ## Supported tags and respective Dockerfile links
 
----
-
 - [1.5](https://github.com/aeternuss/svn/blob/v1.5/Dockerfile)
 
 ## How to use this image
-
----
 
 Start the container by running:
 
@@ -38,7 +34,5 @@ docker run -d \
   Put your SVN repositories under here. One directory per repository please.
 
 ## License
-
----
 
 GPL 3.0
