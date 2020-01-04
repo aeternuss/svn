@@ -2,9 +2,9 @@ FROM httpd:2.4
 MAINTAINER aeternus <aeternus@aliyun.com>
 
 ## svn repositories
-ENV SVN_HOME=/data
+ENV SVN_HOME=/svn
 ## httpd user's config files
-ENV HTTPD_CONFIG=/config
+ENV HTTPD_CONFIG=/httpd
 
 RUN set -ex \
   \
