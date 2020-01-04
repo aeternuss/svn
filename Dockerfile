@@ -22,8 +22,7 @@ RUN set -ex \
   ## include extra config files
   && printf "\n\n%s\n%s\n%s\n%s" \
             "## Include extra config" \
-            "Include conf/extra/nohttp-ssl.conf" \
-            "Include conf/extra/nohttp-modules.conf" \
+            "IncludeOptional conf/extra/nohttp-*.conf" \
             "IncludeOptional $DATA_HOME/apache2/conf.d/*.conf" \
       >> /usr/local/apache2/conf/httpd.conf \
   \
