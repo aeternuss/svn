@@ -1,10 +1,44 @@
 # svn
 
-Docker image with Subversion based on httpd image.
+Provider SVN based on HTTP(s) protocol.
 
-## Bug in Alpine image
+## Supported tags and respective Dockerfile links
 
-The segmentation faults happens when AuthzSVNAccessFile is in the
-config.
+---
 
-It is an issue with 3.8 and above.
+- [1.5](https://github.com/aeternuss/svn/blob/v1.5/Dockerfile)
+
+## How to use this image
+
+---
+
+Start the container by running:
+
+```bash
+docker run -d \
+    -p 8080:80 -p 8443:443 \
+    -v httpdConfigDir:/httpd -v svnRepoDir:/svn
+    aeternuss/svn:<tag>
+```
+
+### Ports
+
+- 80, http protocol
+- 443, https protocol
+
+### Volumes
+
+- /httpd
+
+  Put your httpd config files under here with name suffix `.conf`.
+  Apache httpd will load them when start.
+
+- /svn
+
+  Put your SVN repositories under here. One directory per repository please.
+
+## License
+
+---
+
+GPL 3.0
