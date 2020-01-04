@@ -33,6 +33,12 @@ docker run -d \
 
   Put your SVN repositories under here. One directory per repository please.
 
+  Because Apache Httpd running as user daemon(uid=1), group daemon(gid=1) in this image, you must change the owner of repository files to it.
+
+  ```bash
+  chown 1:1 -R /svn
+  ```
+
 ## Apache Httpd configuration Examples
 
 There are some Apache Httpd configuration files in directory [examples](https://github.com/aeternuss/svn/tree/master/examples):
