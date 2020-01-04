@@ -33,6 +33,22 @@ docker run -d \
 
   Put your SVN repositories under here. One directory per repository please.
 
+## Apache Httpd configuration Examples
+
+There are some Apache Httpd configuration files in directory [examples](https://github.com/aeternuss/svn/tree/master/examples):
+
+- httptohttps.conf
+
+  Redirect http to https.
+
+- svn.conf
+
+  Serve SVN with passwd file authentication.
+
+- svn-ldap.conf
+
+  Serve SVN with ldap authentication.
+
 ## License
 
 GPL 3.0
