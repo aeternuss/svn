@@ -1,0 +1,10 @@
+[groups]
+group1 = user1, user2
+group2 = user21, user22
+
+[/]
+* =
+
+[repo1:/path/to/dir]
+@group1 = rw
+user22 = r
