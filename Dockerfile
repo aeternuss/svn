@@ -1,29 +1,27 @@
 FROM httpd:2.4
 MAINTAINER aeternus <aeternus@aliyun.com>
 
-ENV DATA_HOME=/data
+## svn repositories
+ENV SVN_HOME=/data
+## httpd user's config files
+ENV HTTPD_CONFIG=/config
 
 RUN set -ex \
   \
   && apt-get update \
   \
   ## install packages
-  && apt-get install -y \
-      \
-      ## subversion
-      subversion \
-      \
-      ## apache modules, Aleady: dav, ldap, ssl
-      libapache2-mod-svn \
+  && apt-get install -y subversion libapache2-mod-svn \
   \
-  ## data dir
-  && mkdir -p "$DATA_HOME" \
+  && mkdir -p "$SVN_HOME" \
+  && chown daemon:daemon "$SVN_HOME" \
+  && mkdir -p "$HTTPD_CONFIG" \
   \
   ## include extra config files
-  && printf "\n\n%s\n%s\n%s\n%s" \
+  && printf "\n\n%s\n%s\n%s" \
             "## Include extra config" \
             "IncludeOptional conf/extra/nohttp-*.conf" \
-            "IncludeOptional $DATA_HOME/apache2/conf.d/*.conf" \
+            "IncludeOptional $HTTPD_CONFIG/*.conf" \
       >> /usr/local/apache2/conf/httpd.conf \
   \
   ## cleanup
@@ -38,4 +36,5 @@ COPY conf/nohttp-modules.conf /usr/local/apache2/conf/extra/nohttp-modules.conf
 
 EXPOSE 80 443
 
-VOLUME $DATA_HOME
+VOLUME $SVN_HOME
+VOLUME $HTTPD_CONFIG
